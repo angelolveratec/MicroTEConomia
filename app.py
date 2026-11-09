@@ -123,11 +123,15 @@ with st.sidebar:
         st.markdown("[👉 Obtener API Key gratis en Google AI Studio](https://aistudio.google.com/)")
 
     available_models = get_available_models(api_key_clean)
+    default_idx = 0
+    if "gemini-3.1-flash-lite" in available_models:
+        default_idx = available_models.index("gemini-3.1-flash-lite")
+
     model_option = st.selectbox(
         "Modelo de Gemini",
         options=available_models,
-        index=0,
-        help="gemini-3.8-flash y gemini-3.1-flash-lite son rápidos, precisos y cuentan con respaldo automático ante alta demanda."
+        index=default_idx,
+        help="gemini-3.1-flash-lite es el modelo predeterminado: ultra rápido, eficiente y con alta disponibilidad."
     )
 
     st.divider()

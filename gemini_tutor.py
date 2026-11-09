@@ -87,10 +87,10 @@ def get_available_models(api_key: Optional[str] = None) -> List[str]:
     Por defecto utiliza los modelos de la generación Gemini 3.
     """
     recommended = [
-        "gemini-3.8-flash",
         "gemini-3.1-flash-lite",
-        "gemini-3.1-pro-preview",
+        "gemini-3.8-flash",
         "gemini-3-flash",
+        "gemini-3.1-pro-preview",
     ]
     if not api_key:
         return recommended
@@ -107,10 +107,10 @@ def get_available_models(api_key: Optional[str] = None) -> List[str]:
                     fetched.append(clean_name)
         if fetched:
             def sort_key(name):
-                if "3.8-flash" in name: return 0
-                if "3.1-flash-lite" in name: return 1
-                if "3.1-pro" in name: return 2
-                if "3-flash" in name: return 3
+                if "3.1-flash-lite" in name: return 0
+                if "3.8-flash" in name: return 1
+                if "3-flash" in name: return 2
+                if "3.1-pro" in name: return 3
                 return 4
             fetched.sort(key=sort_key)
             return fetched
@@ -118,13 +118,13 @@ def get_available_models(api_key: Optional[str] = None) -> List[str]:
         pass
     return recommended
 
-def test_api_connection(api_key: str, model_name: str = "gemini-3.8-flash") -> Dict[str, Any]:
+def test_api_connection(api_key: str, model_name: str = "gemini-3.1-flash-lite") -> Dict[str, Any]:
     """
     Realiza una prueba de conectividad inmediata con la API de Gemini.
     """
     try:
         client = get_gemini_client(api_key)
-        models_to_test = [model_name, "gemini-3.1-flash-lite", "gemini-3-flash", "gemini-3.1-pro-preview"]
+        models_to_test = [model_name, "gemini-3.8-flash", "gemini-3-flash", "gemini-3.1-pro-preview"]
         for m in models_to_test:
             try:
                 response = client.models.generate_content(
@@ -146,7 +146,7 @@ def test_api_connection(api_key: str, model_name: str = "gemini-3.8-flash") -> D
 def generate_tutor_stream(
     messages: List[Dict[str, str]],
     api_key: Optional[str] = None,
-    model_name: str = "gemini-3.8-flash",
+    model_name: str = "gemini-3.1-flash-lite",
     system_instruction: str = SYSTEM_INSTRUCTION
 ) -> Generator[str, None, None]:
     """
@@ -196,8 +196,8 @@ def generate_tutor_stream(
     # Construir lista de candidatos (modelo seleccionado + familia Gemini 3 de respaldo)
     candidate_models = [model_name]
     fallback_pool = [
-        "gemini-3.8-flash",
         "gemini-3.1-flash-lite",
+        "gemini-3.8-flash",
         "gemini-3-flash",
         "gemini-3.1-pro-preview"
     ]
